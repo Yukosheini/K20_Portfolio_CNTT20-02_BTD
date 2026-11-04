@@ -325,12 +325,17 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            nav { position: relative; transform: none !important; }
+            body { flex-direction: column; }
+            nav { width: 100%; }
+            nav .nav-links { flex-wrap: wrap; justify-content: center; gap: 6px; }
+            nav .nav-links a { padding: 8px 10px; }
             nav .nav-container {
                 flex-direction: column;
                 gap: 10px;
             }
             .container {
-                margin-top: 140px;
+                margin-top: 24px;
                 padding: 30px 20px;
             }
             /* Disable custom cursor on touch devices */

@@ -267,6 +267,11 @@
         }
 
         @media (max-width: 768px) {
+            body { padding-top: 0; }
+            nav { position: relative; width: 100%; transform: none !important; }
+            .container-wide { margin-top: 24px; }
+            nav .nav-links { flex-wrap: wrap; justify-content: center; gap: 6px; }
+            nav .nav-links a { padding: 8px 10px; }
             nav .nav-container { flex-direction: column; gap: 10px; }
             .container-wide { width: 98%; padding: 20px; }
             th, td { padding: 8px 5px; font-size: 12px; }
@@ -529,6 +534,8 @@
                 const cells = document.querySelectorAll('td[data-day]');
                 
                 cells.forEach(cell => {
+                    // Empty slots are not lessons and must not affect the status.
+                    if (cell.textContent.trim() === '-' || !cell.textContent.trim()) return;
                     const cellDay = parseInt(cell.getAttribute('data-day'));
                     const startStr = cell.getAttribute('data-start');
                     const endStr = cell.getAttribute('data-end');
