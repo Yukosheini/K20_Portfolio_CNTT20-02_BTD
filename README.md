@@ -11,7 +11,7 @@ https://[tài-khoản].github.io/[tên-repo]/
 ## Cấu trúc thư mục
 index.html, css/, images/, docs/
 ## Đã kiểm tra
-Xem docs/evidence-index.md
+Xem [docs/evidence/evidence-index.md](docs/evidence/evidence-index.md)
 ## Hạn chế / Chưa kiểm tra
 - [Ví dụ: chưa thử trên iPhone]
 ## Khai báo AI
