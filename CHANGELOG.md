@@ -2,5 +2,5 @@
 - Thay đổi: tạo thư mục docs/evidence, thêm file evidence-index.md và ảnh 01-pages.png.
 - Chưa kiểm tra: trang web trên điện thoại.
 
-## V7 – [ngày]
+## V7 – 30/10
 - Đưa website lên GitHub Pages
