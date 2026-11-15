@@ -280,6 +280,21 @@
         }
 
         .achievement-icon { font-size: 40px; }
+        .achievement-medal {
+            flex: 0 0 180px;
+            width: 180px;
+            max-width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(243, 156, 18, 0.08);
+        }
+        .achievement-medal img {
+            display: block;
+            width: 100%;
+            height: 260px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 8px rgba(100, 55, 25, 0.2));
+        }
         .achievement-content h4 { font-size: 18px; margin-bottom: 5px; color: var(--text-main); }
         .achievement-content p { color: var(--text-muted); font-size: 14px; margin-bottom: 5px; }
         
@@ -355,6 +370,7 @@
             .content-grid { grid-template-columns: 1fr; }
             .achievements-card { grid-column: 1; }
             .achievement-item { flex-direction: column; text-align: center; }
+            .achievement-medal { flex-basis: auto; }
             
             .cursor-dot, .cursor-outline { display: none; }
             * { cursor: auto; }
@@ -444,6 +460,18 @@
                 <div class="card-icon">🏅</div>
                 <h2>Thành tựu Nổi bật</h2>
                 <p style="text-align: center; margin-bottom: 30px;">Những cột mốc đáng nhớ trong hành trình của mình</p>
+
+                <div class="achievement-item">
+                    <figure class="achievement-medal">
+                        <img src="assets/images/huy-chuong-dong-dai-nam.png"
+                             alt="Huy chương đồng giải ba Trại kỹ năng mềm Đại học Đại Nam với dây đeo đỏ, trắng, xanh"
+                             width="864" height="1824" loading="lazy">
+                    </figure>
+                    <div class="achievement-content">
+                        <h4>🥉 Giải Ba Trại kỹ năng mềm Đại học Đại Nam</h4>
+                        <p>Đạt được giải Ba trong cuộc thi Trại kỹ năng mềm tại Đại học Đại Nam.</p>
+                    </div>
+                </div>
                 
                 <div class="achievement-item">
                     <div class="achievement-icon">🎓</div>
