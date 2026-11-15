@@ -159,7 +159,6 @@
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
-            transform-style: preserve-3d;
         }
         
         .container-wide.visible {
@@ -190,6 +189,20 @@
         }
         
         #countdown { color: var(--primary-color); font-weight: bold; }
+
+        .semester-picker { margin: 20px 0 12px; }
+        .semester-picker label { font-weight: 600; margin-right: 10px; }
+        .semester-picker select {
+            font: inherit;
+            color: var(--text-main);
+            background: var(--bg-glass);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 10px 16px;
+        }
+        .semester-picker select:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 3px; }
+        .schedule-note { color: var(--text-muted); line-height: 1.6; font-size: 14px; }
+        .session-row th { background: rgba(102, 126, 234, 0.12); color: var(--primary-color); text-align: left; }
 
         /* Table Styles */
         .table-wrapper {
@@ -298,17 +311,26 @@
         </div>
     </nav>
 
-    <div class="container-wide hover-target" id="tilt-card">
+    <div class="container-wide hover-target" id="main-card">
         <h1>⏰ Thời Khóa Biểu Tuần</h1>
+        <div class="semester-picker">
+            <label for="semester-select">Chọn học kì:</label>
+            <select id="semester-select" class="hover-target">
+                <option value="1">Học kì 1</option>
+                <option value="2">Học kì 2</option>
+            </select>
+        </div>
+        <p class="schedule-note" id="semester-note" aria-live="polite">Học kì 1: học buổi sáng, không có tiết buổi chiều.</p>
         
         <!-- Trạng thái thông minh -->
-        <div class="status-bar">
+        <div class="status-bar" role="status">
             <span id="status-text">Đang tải lịch học...</span> 
             <span id="countdown"></span>
         </div>
 
         <div class="table-wrapper">
             <table id="schedule-table">
+                <caption id="schedule-caption">Học kì 1 — Buổi sáng</caption>
                 <thead>
                     <tr>
                         <th>Tiết / Giờ</th>
@@ -380,7 +402,7 @@
         </div>
 
         <footer>
-            Cập nhật ngày 19/09/2026 | Bùi Trung Đức - FIT4014
+            Bùi Trung Đức · Sinh viên năm nhất ngành Công nghệ thông tin · Đại học Đại Nam
         </footer>
     </div>
 
@@ -479,7 +501,7 @@
             });
 
             // Entrance Animation
-            setTimeout(() => document.getElementById('tilt-card').classList.add('visible'), 100);
+            setTimeout(() => document.getElementById('main-card').classList.add('visible'), 100);
 
             // Navbar Scroll Logic
             let lastScrollTop = 0;
@@ -513,6 +535,71 @@
 
 
             // --- 3. SMART SCHEDULE LOGIC ---
+            const semesterSelect = document.getElementById('semester-select');
+            const scheduleBody = document.querySelector('#schedule-table tbody');
+            const semesterOneMarkup = scheduleBody.innerHTML;
+            // Khung giờ buổi chiều khóa 20, năm học 2026–2027.
+            const afternoonPeriods = [
+                ['12:45', '13:45'],
+                ['13:50', '14:40'],
+                ['14:55', '15:45'],
+                ['15:50', '16:40'],
+                ['16:45', '17:25']
+            ];
+            const afternoonSubjects = {
+                2: ['Kiến trúc và hệ điều hành máy tính', 'P602-GD2'],
+                4: ['Giải tích', 'P602-GD2'],
+                6: ['Lập trình cơ bản', 'P401-GD2']
+            };
+
+            function renderSemester() {
+                const isSemesterTwo = semesterSelect.value === '2';
+                document.getElementById('schedule-caption').textContent = isSemesterTwo
+                    ? 'Học kì 2 — Buổi chiều, 5 tiết mỗi buổi'
+                    : 'Học kì 1 — Buổi sáng';
+                document.getElementById('semester-note').textContent = isSemesterTwo
+                    ? 'Khóa 20 · Không học buổi sáng. Thứ 2, 4, 6 học chiều từ 12:45 đến 17:25; thứ 3, 5, 7 và Chủ nhật nghỉ. Nghỉ 5 phút giữa các tiết, riêng sau tiết chiều 2 nghỉ 15 phút.'
+                    : 'Học kì 1: học buổi sáng, không có tiết buổi chiều.';
+                if (!isSemesterTwo) {
+                    scheduleBody.innerHTML = semesterOneMarkup;
+                } else {
+                    scheduleBody.innerHTML = '<tr class="session-row"><th colspan="7" scope="rowgroup">Buổi sáng — Nghỉ cả tuần</th></tr>'
+                        + '<tr class="session-row"><th colspan="7" scope="rowgroup">Buổi chiều — 5 tiết · Khóa 20</th></tr>';
+                    for (let period = 1; period <= 5; period++) {
+                        const [start, end] = afternoonPeriods[period - 1];
+                        const row = document.createElement('tr');
+                        const label = document.createElement('td');
+                        label.textContent = `Tiết chiều ${period}`;
+                        const time = document.createElement('span');
+                        time.className = 'subject-code';
+                        time.textContent = `${start} - ${end}`;
+                        label.appendChild(time);
+                        row.appendChild(label);
+                        for (let day = 2; day <= 7; day++) {
+                            const cell = document.createElement('td');
+                            cell.dataset.day = day;
+                            cell.dataset.start = start;
+                            cell.dataset.end = end;
+                            const subject = afternoonSubjects[day];
+                            if (subject) {
+                                cell.appendChild(document.createTextNode(subject[0]));
+                                const room = document.createElement('span');
+                                room.className = 'subject-code';
+                                room.textContent = subject[1];
+                                cell.appendChild(room);
+                            } else {
+                                cell.textContent = '-';
+                                cell.setAttribute('aria-label', 'Nghỉ');
+                            }
+                            row.appendChild(cell);
+                        }
+                        scheduleBody.appendChild(row);
+                    }
+                }
+                checkSchedule();
+            }
+            semesterSelect.addEventListener('change', renderSemester);
+
             function checkSchedule() {
                 const now = new Date();
                 const day = now.getDay(); // 0=CN, 1=T2...
@@ -582,32 +669,8 @@
                 }
             }
 
-            checkSchedule();
+            renderSemester();
             setInterval(checkSchedule, 60000);
-            // --- 4. OPTIMIZED 3D TILT EFFECT ---
-            if (window.matchMedia("(min-width: 769px)").matches) {
-                const card = document.getElementById('tilt-card');
-                let ticking = false;
-
-                card.addEventListener('mousemove', (e) => {
-                    if (!ticking) {
-                        window.requestAnimationFrame(() => {
-                            const rect = card.getBoundingClientRect();
-                            const x = e.clientX - rect.left;
-                            const y = e.clientY - rect.top;
-                            const xRotation = -((y - rect.height / 2) / 30); 
-                            const yRotation = (x - rect.width / 2) / 30;
-                            card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-                });
-            }
         });
     </script>
 </body>

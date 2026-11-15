@@ -107,7 +107,6 @@
             align-items: center;
             color: var(--text-dark);
             overflow-x: hidden;
-            perspective: 1000px; /* Cho hiệu ứng 3D */
         }
 
         @keyframes gradientBG {
@@ -218,8 +217,6 @@
             transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
             
-            /* 3D Transform settings */
-            transform-style: preserve-3d;
         }
 
         .container.visible {
@@ -368,7 +365,7 @@
         </div>
     </nav>
 
-    <div class="container hover-target" id="tilt-card">
+    <div class="container hover-target" id="main-card">
         <img src="assets/images/avatar.jpg" alt="Ảnh đại diện Bùi Trung Đức" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=Bui+Trung+Duc&background=random&size=150'">
         
         <h1>Xin chào, mình là Bùi Trung Đức! 👋</h1>
@@ -377,6 +374,8 @@
         <h2 id="typing-text"></h2>
         
         <p>
+            Mình là sinh viên năm nhất ngành <strong>Công nghệ thông tin</strong> tại
+            <strong>Trường Đại học Đại Nam</strong>.
             Mình vừa mới bắt đầu học lập trình và đây là trang web đầu tiên của mình. 
             Mình rất hào hứng khám phá thế giới công nghệ và xây dựng các sản phẩm số.
         </p>
@@ -492,7 +491,7 @@
 
 
             // --- 3. ENTRANCE ANIMATION ---
-            const container = document.getElementById('tilt-card');
+            const container = document.getElementById('main-card');
             setTimeout(() => {
                 container.classList.add('visible');
             }, 100);
@@ -555,25 +554,6 @@
             });
 
 
-            // --- 7. 3D TILT EFFECT FOR CARD ---
-            // Only active on desktop
-            if (window.matchMedia("(min-width: 769px)").matches) {
-                container.addEventListener('mousemove', (e) => {
-                    const rect = container.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    // Calculate rotation based on mouse position
-                    const xRotation = -((y - rect.height / 2) / 20); 
-                    const yRotation = (x - rect.width / 2) / 20;
-                    
-                    container.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) scale(1.02)`;
-                });
-
-                container.addEventListener('mouseleave', () => {
-                    container.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                });
-            }
         });
     </script>
 </body>
