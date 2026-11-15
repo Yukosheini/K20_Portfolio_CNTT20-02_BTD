@@ -10,7 +10,7 @@
 - Bổ sung mã hỗ trợ tạo và định dạng hồ sơ minh chứng trong `build_evidence.py`, `style_evidence.py`.
 - Giữ hồ sơ bàn giao đã tạo ngày 04/11/2026: `docs/evidence`, `evidence-index.md` và ảnh minh chứng.
 - Đã kiểm tra: cú pháp JavaScript, chuyển đổi học kì, môn/phòng học, ngày nghỉ, khung giờ K20 và khoảng nghỉ 5/15 phút bằng kiểm tra mô phỏng; `git diff --check`.
-- Chưa kiểm tra toàn diện trên thiết bị điện thoại thực tế.
+- Chủ dự án đã kiểm tra trên thiết bị điện thoại thực tế và xác nhận website hoạt động bình thường.
 
 ## V7 – 30/10
 - Đưa website lên GitHub Pages
