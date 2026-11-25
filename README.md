@@ -15,6 +15,7 @@ index.html, schedule.html, contact.html, hello.html, css/, docs/evidence/
 ## Đã kiểm tra
 Xem [docs/evidence/evidence-index.md](docs/evidence/evidence-index.md)
 ## Hạn chế / Chưa kiểm tra
-- [Ví dụ: chưa thử trên iPhone]
+- Không có
+
 ## Khai báo AI
 Xem docs/AI_LOG.md
