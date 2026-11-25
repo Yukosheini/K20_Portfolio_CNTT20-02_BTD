@@ -1,7 +1,6 @@
 ## V8 – Cập nhật 25/11/2026
 
 - Thêm favicon chữ BTĐ tại `assets/favicon.png` và dùng chung trên `index.html`, `hello.html`, `schedule.html` và `contact.html`.
-- Xóa hai tập lệnh hỗ trợ tạo minh chứng `build_evidence.py` và `style_evidence.py` khỏi kho mã nguồn.
 - Xóa ghi chú về kiểm thử trên iPhone trong `README.md`.
 
 ## V8 – Cập nhật 15/11/2026
